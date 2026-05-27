@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Prov i biologi – Liv och Evolution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --grass-50: #f4f8f1;
+    --grass-100: #e3efdb;
+    --grass-200: #c6dfb6;
+    --grass-400: #7aa86a;
+    --grass-600: #4a7340;
+    --grass-700: #355128;
+    --moss: #2e3d22;
+    --paper: #fbfaf4;
+    --ink: #1f2419;
+    --muted: #6b7361;
+    --accent: #d97444;
+    --correct: #5b8c47;
+    --wrong: #c1543c;
+    --shadow: 0 1px 2px rgba(46,61,34,0.06), 0 4px 16px rgba(46,61,34,0.05);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', -apple-system, system-ui, sans-serif;
+    background:
+      radial-gradient(circle at 20% -10%, var(--grass-100) 0%, transparent 40%),
+      radial-gradient(circle at 90% 110%, var(--grass-100) 0%, transparent 35%),
+      var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-size: 17px;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem 6rem;
+  }
+
+  /* Header */
+  header.intro {
+    text-align: center;
+    padding: 2rem 0 1.5rem;
+    border-bottom: 2px solid var(--grass-100);
+    margin-bottom: 1.5rem;
+  }
+
+  .leaf {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+    transform: rotate(-15deg);
+  }
+
+  h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.9rem;
+    line-height: 1.15;
+    color: var(--moss);
+    margin: 0.25rem 0 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  /* Namnfält */
+  .namn-falt {
+    background: white;
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--grass-100);
+  }
+
+  .namn-falt label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--grass-700);
+    margin-bottom: 0.3rem;
+  }
+
+  .namn-falt input {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    font-size: 1rem;
+    font-family: inherit;
+    border: 1.5px solid var(--grass-200);
+    border-radius: 10px;
+    background: var(--paper);
+    color: var(--ink);
+    transition: border-color 0.15s;
+  }
+
+  .namn-falt input:focus {
+    outline: none;
+    border-color: var(--grass-400);
+  }
+
+  /* Sektion-rubriker */
+  h2.del-rubrik {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--grass-700);
+    margin: 2.5rem 0 0.5rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+
+  h2.del-rubrik .markor {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--grass-400);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .del-info {
+    font-size: 0.92rem;
+    color: var(--muted);
+    margin: 0 0 1.2rem;
+    font-style: italic;
+  }
+
+  /* Frågekort */
+  .fraga {
+    background: white;
+    border-radius: 16px;
+    padding: 1.2rem 1.15rem 1.3rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--grass-100);
+    position: relative;
+  }
+
+  .fraga-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .fraga-nr {
+    background: var(--grass-100);
+    color: var(--grass-700);
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    flex-shrink: 0;
+  }
+
+  .poang {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .fragetext {
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 1rem;
+    line-height: 1.4;
+  }
+
+  /* Alternativ (kryssfrågor) */
+  .alternativ {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .alt {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.85rem 0.9rem;
+    background: var(--grass-50);
+    border: 1.5px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.12s ease;
+    user-select: none;
+  }
+
+  .alt:active {
+    transform: scale(0.985);
+  }
+
+  .alt input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--grass-400);
+    border-radius: 50%;
+    margin: 2px 0 0;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    background: white;
+  }
+
+  .alt input[type="radio"]:checked {
+    background: var(--grass-600);
+    border-color: var(--grass-600);
+  }
+
+  .alt input[type="radio"]:checked::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: white;
+  }
+
+  .alt:has(input:checked) {
+    background: var(--grass-100);
+    border-color: var(--grass-400);
+  }
+
+  .alt-text {
+    flex: 1;
+    font-size: 0.98rem;
+  }
+
+  /* När facit visas */
+  .alt.korrekt {
+    background: #e6f1dc;
+    border-color: var(--correct);
+  }
+  .alt.felaktig {
+    background: #fbe2dc;
+    border-color: var(--wrong);
+  }
+  .alt.korrekt::after {
+    content: "✓";
+    margin-left: auto;
+    color: var(--correct);
+    font-weight: 700;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .alt.felaktig::after {
+    content: "✕";
+    margin-left: auto;
+    color: var(--wrong);
+    font-weight: 700;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  /* Öppna svar */
+  .svar-fält {
+    width: 100%;
+    min-height: 100px;
+    padding: 0.85rem 0.95rem;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    border: 1.5px solid var(--grass-200);
+    border-radius: 10px;
+    background: var(--paper);
+    color: var(--ink);
+    resize: vertical;
+    transition: border-color 0.15s;
+  }
+
+  .svar-fält:focus {
+    outline: none;
+    border-color: var(--grass-400);
+  }
+
+  .svar-fält.stor {
+    min-height: 140px;
+  }
+
+  /* Nyckling-specifik */
+  .nyckel-info {
+    background: var(--grass-50);
+    border-left: 3px solid var(--grass-400);
+    padding: 0.8rem 1rem;
+    margin: 0.5rem 0 1rem;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .nyckel-info strong {
+    color: var(--grass-700);
+  }
+
+  .nyckel-uppgift {
+    margin-top: 0.8rem;
+  }
+
+  .nyckel-uppgift label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+
+  .nyckel-uppgift input {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    font-family: inherit;
+    font-size: 1rem;
+    border: 1.5px solid var(--grass-200);
+    border-radius: 10px;
+    background: var(--paper);
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+  }
+  .nyckel-uppgift input:focus {
+    outline: none;
+    border-color: var(--grass-400);
+  }
+
+  /* Skicka-knapp */
+  .skicka-omrade {
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  button.skicka {
+    background: var(--grass-600);
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(74,115,64,0.3);
+    transition: transform 0.1s, box-shadow 0.15s;
+    letter-spacing: 0.02em;
+  }
+
+  button.skicka:hover {
+    box-shadow: 0 6px 20px rgba(74,115,64,0.4);
+  }
+
+  button.skicka:active {
+    transform: scale(0.97);
+  }
+
+  /* Resultat-banner */
+  .resultat {
+    display: none;
+    background: linear-gradient(135deg, var(--grass-600), var(--grass-700));
+    color: white;
+    padding: 1.75rem 1.3rem;
+    border-radius: 18px;
+    margin: 1.5rem 0;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(53,81,40,0.25);
+  }
+
+  .resultat.visa {
+    display: block;
+    animation: glid 0.4s ease-out;
+  }
+
+  @keyframes glid {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .resultat h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    margin: 0 0 0.4rem;
+    font-size: 1.4rem;
+  }
+
+  .resultat .siffror {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+    font-family: 'Fraunces', Georgia, serif;
+  }
+
+  .resultat .beskrivning {
+    opacity: 0.92;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0.5rem 0 0;
+  }
+
+  .resultat .info {
+    background: rgba(255,255,255,0.12);
+    padding: 0.7rem 0.9rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  /* Klar-knapp / skriva ut svar */
+  button.skicka-text {
+    background: transparent;
+    color: var(--grass-700);
+    border: 1.5px solid var(--grass-400);
+    margin-top: 1rem;
+    padding: 0.7rem 1.5rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  /* Slut-fot */
+  footer.slut {
+    text-align: center;
+    padding: 2rem 0 1rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-style: italic;
+  }
+
+  /* Tablet+ tweaks */
+  @media (min-width: 720px) {
+    body { font-size: 18px; }
+    .container { padding: 2rem 1.5rem 6rem; }
+    h1 { font-size: 2.3rem; }
+    .fraga { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="intro">
+    <div class="leaf">🌿</div>
+    <h1>Prov i biologi</h1>
+    <p class="subtitle">Liv och Evolution · åk 6 · ca 45 min</p>
+  </header>
+
+  <div class="namn-falt">
+    <label for="namn">Skriv ditt namn</label>
+    <input type="text" id="namn" placeholder="För- och efternamn">
+  </div>
+
+  <!-- DEL A -->
+  <h2 class="del-rubrik"><span class="markor"></span>Del A · Kryssfrågor</h2>
+  <p class="del-info">Välj det rätta svaret. Endast ett alternativ är rätt.</p>
+
+  <!-- Frågorna byggs in i JS för att slippa upprepa massa HTML -->
+  <div id="del-a"></div>
+
+  <h2 class="del-rubrik"><span class="markor"></span>Del B · Förklara begrepp</h2>
+  <p class="del-info">Skriv hela meningar med egna ord.</p>
+  <div id="del-b"></div>
+
+  <h2 class="del-rubrik"><span class="markor"></span>Del C · Celler</h2>
+  <div id="del-c"></div>
+
+  <h2 class="del-rubrik"><span class="markor"></span>Del D · Klassificering och nyckling</h2>
+  <div id="del-d"></div>
+
+  <h2 class="del-rubrik"><span class="markor"></span>Del E · Evolution och naturligt urval</h2>
+  <div id="del-e"></div>
+
+  <div id="resultat" class="resultat">
+    <h3>Klart!</h3>
+    <div class="siffror" id="poang-text">0 / 8 p</div>
+    <p class="beskrivning" id="resultat-beskrivning">Du har svarat på kryssfrågorna.</p>
+    <div class="info">
+      Dina öppna svar rättas av din lärare. Visa skärmen eller skicka in svaren när du är klar.
+    </div>
+    <button class="skicka-text" onclick="visaSvar()">Visa alla mina svar för läraren</button>
+  </div>
+
+  <div class="skicka-omrade">
+    <button class="skicka" onclick="rattaProvet()">Lämna in provet</button>
+  </div>
+
+  <footer class="slut">
+    Lycka till! 🌱
+  </footer>
+
+</div>
+
+<script>
+  // FRÅGEDATA
+  const kryssfragor = [
+    {
+      nr: 1,
+      text: "Vad betyder ordet biologi?",
+      alt: ["Läran om jorden", "Läran om livet", "Läran om stenar", "Läran om rymden"],
+      ratt: 1
+    },
+    {
+      nr: 2,
+      text: "Vilket av följande är INTE något som alla levande varelser måste kunna göra?",
+      alt: ["Växa", "Andas", "Prata", "Föröka sig"],
+      ratt: 2
+    },
+    {
+      nr: 3,
+      text: "Vad heter den minsta levande byggstenen som alla organismer består av?",
+      alt: ["Atom", "Cell", "Organ", "DNA"],
+      ratt: 1
+    },
+    {
+      nr: 4,
+      text: "Vilken cell har kloroplaster?",
+      alt: ["Djurcellen", "Bakteriecellen", "Växtcellen", "Alla celler"],
+      ratt: 2
+    },
+    {
+      nr: 5,
+      text: "Vem var Carl von Linné?",
+      alt: [
+        "En engelsk forskare som skrev boken Om arternas uppkomst",
+        "En svensk forskare som skapade ett system för att namnge växter och djur",
+        "En forskare som upptäckte cellen",
+        "En paleontolog som studerade dinosaurier"
+      ],
+      ratt: 1
+    },
+    {
+      nr: 6,
+      text: "Hur lång tid sedan uppstod livet på jorden?",
+      alt: [
+        "Cirka 200 år sedan",
+        "Cirka 2 miljoner år sedan",
+        "Cirka 3,9 miljarder år sedan",
+        "Cirka 100 miljarder år sedan"
+      ],
+      ratt: 2
+    },
+    {
+      nr: 7,
+      text: "Vem skapade evolutionsteorin?",
+      alt: ["Carl von Linné", "Charles Darwin", "Albert Einstein", "Isaac Newton"],
+      ratt: 1
+    },
+    {
+      nr: 8,
+      text: "Vad är en population?",
+      alt: [
+        "Alla människor i en stad",
+        "Alla individer av samma art som lever i ett visst ekosystem",
+        "Alla djur som lever på jorden",
+        "En grupp olika djurarter som lever tillsammans"
+      ],
+      ratt: 1
+    }
+  ];
+
+  const oppnaB = [
+    { nr: 9, text: "Vad är en organism? Ge två exempel.", poang: 2 },
+    { nr: 10, text: "Vad är skillnaden mellan en encellig och en flercellig organism? Ge gärna ett exempel på vardera.", poang: 2, stor: true },
+    { nr: 11, text: "Vad är DNA och var finns det i cellen?", poang: 2 },
+    { nr: 12, text: "Förklara orden variation, fossil och art.", poang: 3, stor: true }
+  ];
+
+  const oppnaC = [
+    { nr: 13, text: "Skriv minst TRE skillnader mellan en växtcell och en djurcell.", poang: 3, stor: true },
+    { nr: 14, text: "Hur bildas nya celler? Förklara med egna ord.", poang: 2 }
+  ];
+
+  const oppnaD = [
+    { nr: 15, text: "Carl von Linné gav alla växter och djur två latinska namn. Vad heter de två delarna i namnet? Ge ett exempel.", poang: 2 },
+    { nr: 16, text: "Lejon (Panthera leo) och tiger (Panthera tigris) tillhör samma släkte men är olika arter. Hur kan du se det på deras namn?", poang: 2 }
+  ];
+
+  const oppnaE = [
+    { nr: 18, text: "Vad menas med det naturliga urvalet? Förklara med egna ord.", poang: 3, stor: true },
+    { nr: 19, text: "Charles Darwin gjorde en världsomsegling med skeppet Beagle. På en plats fascinerades han särskilt mycket. Vilken plats var det och varför var den så intressant?", poang: 2 },
+    { nr: 20, text: "Tänk dig en flock harar som lever i ett skogsområde. Vintrarna blir allt snöigare och kallare. Vilka harar kommer troligen att överleva bäst och få ungar? Förklara med hjälp av orden VARIATION, ANPASSNING och NATURLIGT URVAL.", poang: 4, stor: true },
+    { nr: 21, text: "Hur kan en helt ny art uppstå? Använd exemplet med renarna från häftet eller hitta på ett eget exempel.", poang: 3, stor: true }
+  ];
+
+  // RENDERING
+
+  function renderaKryssfraga(f) {
+    const div = document.createElement('div');
+    div.className = 'fraga';
+    div.dataset.typ = 'kryss';
+    div.dataset.nr = f.nr;
+    div.dataset.ratt = f.ratt;
+    div.innerHTML = `
+      <div class="fraga-header">
+        <span class="fraga-nr">Fråga ${f.nr}</span>
+        <span class="poang">1 p</span>
+      </div>
+      <p class="fragetext">${f.text}</p>
+      <div class="alternativ">
+        ${f.alt.map((a, i) => `
+          <label class="alt">
+            <input type="radio" name="q${f.nr}" value="${i}">
+            <span class="alt-text">${a}</span>
+          </label>
+        `).join('')}
+      </div>
+    `;
+    return div;
+  }
+
+  function renderaOppen(f) {
+    const div = document.createElement('div');
+    div.className = 'fraga';
+    div.dataset.typ = 'oppen';
+    div.dataset.nr = f.nr;
+    div.innerHTML = `
+      <div class="fraga-header">
+        <span class="fraga-nr">Fråga ${f.nr}</span>
+        <span class="poang">${f.poang} p</span>
+      </div>
+      <p class="fragetext">${f.text}</p>
+      <textarea class="svar-fält ${f.stor ? 'stor' : ''}" placeholder="Skriv ditt svar här..."></textarea>
+    `;
+    return div;
+  }
+
+  function renderaNyckling() {
+    const div = document.createElement('div');
+    div.className = 'fraga';
+    div.dataset.typ = 'nyckling';
+    div.dataset.nr = 17;
+    div.innerHTML = `
+      <div class="fraga-header">
+        <span class="fraga-nr">Fråga 17</span>
+        <span class="poang">3 p</span>
+      </div>
+      <p class="fragetext">Nyckling – Använd flödesschemat för att lista ut vilket träd det handlar om.</p>
+      <div class="nyckel-info">
+        <strong>Har trädet löv?</strong><br>
+        <strong>JA</strong> → Sitter bladen parvis 2 och 2?<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;JA → Har bladen spetsig topp? JA = Ask · NEJ = Rönn<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;NEJ → Har bladen 5 flikar? JA = Lönn · NEJ = Alm<br>
+        <strong>NEJ</strong> → Långa barr som sitter 2 och 2?<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;JA = Tall · NEJ = Gran
+      </div>
+      <div class="nyckel-uppgift">
+        <label>a) Ett blad med spetsig topp som sitter parvis 2 och 2:</label>
+        <input type="text" id="nyckel-a" placeholder="Trädets namn">
+
+        <label>b) Korta barr som inte sitter 2 och 2:</label>
+        <input type="text" id="nyckel-b" placeholder="Trädets namn">
+
+        <label>c) Ett blad med 5 flikar (handflatsformigt):</label>
+        <input type="text" id="nyckel-c" placeholder="Trädets namn">
+      </div>
+    `;
+    return div;
+  }
+
+  // Bygg sidan
+  const delA = document.getElementById('del-a');
+  kryssfragor.forEach(f => delA.appendChild(renderaKryssfraga(f)));
+
+  const delB = document.getElementById('del-b');
+  oppnaB.forEach(f => delB.appendChild(renderaOppen(f)));
+
+  const delC = document.getElementById('del-c');
+  oppnaC.forEach(f => delC.appendChild(renderaOppen(f)));
+
+  const delD = document.getElementById('del-d');
+  oppnaD.forEach(f => delD.appendChild(renderaOppen(f)));
+  delD.appendChild(renderaNyckling());
+
+  const delE = document.getElementById('del-e');
+  oppnaE.forEach(f => delE.appendChild(renderaOppen(f)));
+
+  // RÄTTNING
+  function rattaProvet() {
+    let poang = 0;
+    let obesvarade = 0;
+
+    // Rätta kryssfrågor
+    kryssfragor.forEach(f => {
+      const fragdiv = document.querySelector(`.fraga[data-typ="kryss"][data-nr="${f.nr}"]`);
+      const valt = fragdiv.querySelector(`input[name="q${f.nr}"]:checked`);
+      const alternativ = fragdiv.querySelectorAll('.alt');
+
+      if (!valt) {
+        obesvarade++;
+      } else {
+        const valIndex = parseInt(valt.value);
+        if (valIndex === f.ratt) {
+          poang++;
+        }
+      }
+
+      // Markera korrekt och eventuellt felval
+      alternativ.forEach((alt, i) => {
+        alt.classList.remove('korrekt', 'felaktig');
+        if (i === f.ratt) {
+          alt.classList.add('korrekt');
+        } else if (valt && parseInt(valt.value) === i) {
+          alt.classList.add('felaktig');
+        }
+        // Lås så de inte kan ändras
+        const radio = alt.querySelector('input');
+        radio.disabled = true;
+      });
+    });
+
+    // Visa resultat
+    const resultatBox = document.getElementById('resultat');
+    resultatBox.classList.add('visa');
+
+    document.getElementById('poang-text').textContent = `${poang} / 8 p`;
+
+    let beskrivning;
+    if (poang === 8) beskrivning = "Toppen! Alla kryssfrågor rätt. 🌟";
+    else if (poang >= 6) beskrivning = "Bra jobbat på kryssfrågorna!";
+    else if (poang >= 4) beskrivning = "Du har en god grund på kryssfrågorna.";
+    else beskrivning = "Du har svarat på kryssfrågorna.";
+
+    if (obesvarade > 0) {
+      beskrivning += ` (Du lämnade ${obesvarade} kryssfråga${obesvarade === 1 ? '' : 'or'} obesvarad${obesvarade === 1 ? '' : 'a'}.)`;
+    }
+
+    document.getElementById('resultat-beskrivning').textContent = beskrivning;
+
+    // Scrolla till resultatet
+    resultatBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // Visa alla svar i en samlad ruta (för att läraren ska kunna läsa enkelt)
+  function visaSvar() {
+    const namn = document.getElementById('namn').value || '(namn saknas)';
+    let text = `PROVSVAR – Biologi (Liv & Evolution)\nElev: ${namn}\nDatum: ${new Date().toLocaleString('sv-SE')}\n\n`;
+
+    text += "=== DEL A – Kryssfrågor ===\n";
+    kryssfragor.forEach(f => {
+      const valt = document.querySelector(`input[name="q${f.nr}"]:checked`);
+      const svar = valt ? f.alt[parseInt(valt.value)] : "(ej besvarad)";
+      const ratt = parseInt(valt?.value) === f.ratt ? "✓" : (valt ? "✕" : "–");
+      text += `\nFråga ${f.nr}: ${f.text}\n  Svar: ${svar} ${ratt}\n  Rätt svar: ${f.alt[f.ratt]}\n`;
+    });
+
+    text += "\n=== DEL B – Förklara begrepp ===\n";
+    [...oppnaB, ...oppnaC].forEach(f => {
+      const div = document.querySelector(`.fraga[data-nr="${f.nr}"]`);
+      const svar = div.querySelector('textarea').value || "(ej besvarad)";
+      text += `\nFråga ${f.nr} (${f.poang} p): ${f.text}\n  Svar: ${svar}\n`;
+    });
+
+    text += "\n=== DEL D – Klassificering ===\n";
+    oppnaD.forEach(f => {
+      const div = document.querySelector(`.fraga[data-nr="${f.nr}"]`);
+      const svar = div.querySelector('textarea').value || "(ej besvarad)";
+      text += `\nFråga ${f.nr} (${f.poang} p): ${f.text}\n  Svar: ${svar}\n`;
+    });
+    const nyA = document.getElementById('nyckel-a').value || "(ej besvarad)";
+    const nyB = document.getElementById('nyckel-b').value || "(ej besvarad)";
+    const nyC = document.getElementById('nyckel-c').value || "(ej besvarad)";
+    text += `\nFråga 17 (3 p): Nyckling\n  a) ${nyA}\n  b) ${nyB}\n  c) ${nyC}\n`;
+
+    text += "\n=== DEL E – Evolution och naturligt urval ===\n";
+    oppnaE.forEach(f => {
+      const div = document.querySelector(`.fraga[data-nr="${f.nr}"]`);
+      const svar = div.querySelector('textarea').value || "(ej besvarad)";
+      text += `\nFråga ${f.nr} (${f.poang} p): ${f.text}\n  Svar: ${svar}\n`;
+    });
+
+    // Försök kopiera till urklipp, annars visa ruta
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Alla dina svar är kopierade!\n\nKlistra in dem i ett mejl eller dokument till läraren.");
+      }).catch(() => {
+        visaFallback(text);
+      });
+    } else {
+      visaFallback(text);
+    }
+  }
+
+  function visaFallback(text) {
+    // Skapa en textarea för att markera och kopiera manuellt
+    const overlay = document.createElement('div');
+    overlay.style.cssText = "position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;";
+    overlay.innerHTML = `
+      <div style="background:white;border-radius:14px;padding:1.25rem;max-width:600px;width:100%;max-height:80vh;display:flex;flex-direction:column;">
+        <h3 style="margin:0 0 0.6rem;font-family:'Fraunces',serif;color:#355128;">Dina svar</h3>
+        <p style="margin:0 0 0.7rem;font-size:0.9rem;color:#6b7361;">Markera all text nedan och kopiera, eller visa skärmen för läraren.</p>
+        <textarea readonly style="flex:1;min-height:300px;font-family:monospace;font-size:0.85rem;padding:0.7rem;border:1.5px solid #c6dfb6;border-radius:8px;background:#fbfaf4;">${text.replace(/</g,'&lt;')}</textarea>
+        <button onclick="this.parentElement.parentElement.remove()" style="margin-top:0.8rem;background:#4a7340;color:white;border:none;padding:0.7rem;border-radius:999px;font-family:inherit;font-size:1rem;font-weight:600;cursor:pointer;">Stäng</button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+  }
+</script>
+
+</body>
+</html>
