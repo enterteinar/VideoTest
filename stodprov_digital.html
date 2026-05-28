@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Stödprov i biologi – Liv och Evolution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --grass-50: #f4f8f1;
+    --grass-100: #e3efdb;
+    --grass-200: #c6dfb6;
+    --grass-400: #7aa86a;
+    --grass-600: #4a7340;
+    --grass-700: #355128;
+    --moss: #2e3d22;
+    --paper: #fbfaf4;
+    --ink: #1f2419;
+    --muted: #6b7361;
+    --accent: #d97444;
+    --gold: #c5973b;
+    --sky: #88a8c4;
+    --correct: #5b8c47;
+    --wrong: #c1543c;
+    --shadow: 0 1px 2px rgba(46,61,34,0.06), 0 4px 16px rgba(46,61,34,0.05);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', -apple-system, system-ui, sans-serif;
+    background:
+      radial-gradient(circle at 20% -10%, var(--grass-100) 0%, transparent 40%),
+      radial-gradient(circle at 90% 110%, var(--grass-100) 0%, transparent 35%),
+      var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-size: 17px;
+  }
+
+  .container { max-width: 720px; margin: 0 auto; padding: 1.5rem 1.25rem 6rem; }
+
+  header.intro {
+    text-align: center;
+    padding: 2rem 0 1.5rem;
+    border-bottom: 2px solid var(--grass-100);
+    margin-bottom: 1.5rem;
+  }
+
+  .leaf { font-size: 2.5rem; margin-bottom: 0.5rem; display: inline-block; transform: rotate(-15deg); }
+
+  h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    line-height: 1.15;
+    color: var(--moss);
+    margin: 0.25rem 0 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .subtitle { color: var(--muted); font-size: 0.95rem; margin: 0; }
+
+  .info-ruta {
+    background: white;
+    border: 1px solid var(--grass-100);
+    border-left: 4px solid var(--grass-400);
+    border-radius: 0 14px 14px 0;
+    padding: 1rem 1.1rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+  }
+  .info-ruta h3 {
+    margin: 0 0 0.5rem;
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    color: var(--grass-700);
+  }
+  .info-ruta p { margin: 0; font-size: 0.93rem; line-height: 1.5; }
+
+  .namn-falt {
+    background: white;
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--grass-100);
+  }
+  .namn-falt label { display: block; font-weight: 600; font-size: 0.9rem; color: var(--grass-700); margin-bottom: 0.3rem; }
+  .namn-falt input {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    font-size: 1rem;
+    font-family: inherit;
+    border: 1.5px solid var(--grass-200);
+    border-radius: 10px;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .namn-falt input:focus { outline: none; border-color: var(--grass-400); }
+
+  .fraga {
+    background: white;
+    border-radius: 16px;
+    padding: 1.2rem 1.15rem 1.3rem;
+    margin-bottom: 1.4rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--grass-100);
+  }
+  .fraga-header { display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.7rem; }
+  .fraga-nr {
+    background: var(--grass-100);
+    color: var(--grass-700);
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    flex-shrink: 0;
+  }
+  .poang { margin-left: auto; font-size: 0.8rem; color: var(--muted); font-weight: 500; flex-shrink: 0; }
+
+  /* REPETITIONS-RUTA - "Minns du?" */
+  .repetition {
+    background: #f1f6ef;
+    border: 1px dashed var(--grass-200);
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.9rem;
+    position: relative;
+  }
+  .repetition::before {
+    content: "📖 Minns du?";
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--grass-700);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .repetition p { margin: 0; font-size: 0.92rem; line-height: 1.55; color: var(--ink); }
+  .repetition strong { color: var(--grass-700); }
+
+  /* MODELLEXEMPEL-RUTA - "Så här svarar man på A-nivå" */
+  .modell {
+    background: linear-gradient(135deg, #fef9ed 0%, #fdf3da 100%);
+    border: 1px solid #e8d290;
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.9rem;
+  }
+  .modell::before {
+    content: "⭐ Så här svarar man fullständigt (med ett annat exempel):";
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #8a6a1d;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.45rem;
+  }
+  .modell .exempel-fraga {
+    font-style: italic;
+    color: #6b5320;
+    font-size: 0.88rem;
+    margin: 0 0 0.5rem;
+  }
+  .modell .exempel-svar {
+    background: white;
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--ink);
+    margin: 0;
+  }
+  .modell .exempel-svar mark {
+    background: #fceea9;
+    padding: 0.05em 0.2em;
+    border-radius: 3px;
+    color: inherit;
+    font-weight: 600;
+  }
+  .modell .analys {
+    font-size: 0.82rem;
+    color: #8a6a1d;
+    margin: 0.5rem 0 0;
+    font-style: italic;
+  }
+
+  .fragetext {
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0.4rem 0 1rem;
+    line-height: 1.45;
+    font-size: 1.02rem;
+  }
+
+  .svar-fält {
+    width: 100%;
+    min-height: 110px;
+    padding: 0.85rem 0.95rem;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    border: 1.5px solid var(--grass-200);
+    border-radius: 10px;
+    background: var(--paper);
+    color: var(--ink);
+    resize: vertical;
+  }
+  .svar-fält:focus { outline: none; border-color: var(--grass-400); }
+  .svar-fält.stor { min-height: 150px; }
+
+  /* Checklista efter svar */
+  .checklista {
+    margin-top: 0.6rem;
+    background: var(--grass-50);
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  .checklista-titel {
+    font-weight: 700;
+    color: var(--grass-700);
+    margin-bottom: 0.3rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .checklista ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .checklista li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    padding: 0.15rem 0;
+    color: var(--muted);
+  }
+  .checklista li::before {
+    content: "☐";
+    color: var(--grass-400);
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .skicka-omrade { margin-top: 2rem; text-align: center; }
+  button.skicka {
+    background: var(--grass-600);
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(74,115,64,0.3);
+    letter-spacing: 0.02em;
+  }
+  button.skicka:active { transform: scale(0.97); }
+
+  .resultat {
+    display: none;
+    background: linear-gradient(135deg, var(--grass-600), var(--grass-700));
+    color: white;
+    padding: 1.75rem 1.3rem;
+    border-radius: 18px;
+    margin: 1.5rem 0;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(53,81,40,0.25);
+  }
+  .resultat.visa { display: block; animation: glid 0.4s ease-out; }
+  @keyframes glid { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .resultat h3 { font-family: 'Fraunces', serif; margin: 0 0 0.4rem; font-size: 1.4rem; }
+  .resultat p { margin: 0.5rem 0; opacity: 0.92; }
+  button.skicka-text {
+    background: transparent;
+    color: white;
+    border: 1.5px solid rgba(255,255,255,0.6);
+    margin-top: 1rem;
+    padding: 0.7rem 1.5rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  footer.slut { text-align: center; padding: 2rem 0 1rem; color: var(--muted); font-size: 0.85rem; font-style: italic; }
+
+  @media (min-width: 720px) {
+    body { font-size: 18px; }
+    .container { padding: 2rem 1.5rem 6rem; }
+    h1 { font-size: 2.2rem; }
+    .fraga { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="intro">
+    <div class="leaf">🌿</div>
+    <h1>Stödprov i biologi</h1>
+    <p class="subtitle">Liv och Evolution · åk 6</p>
+  </header>
+
+  <div class="info-ruta">
+    <h3>Så här funkar provet</h3>
+    <p>
+      Innan varje fråga får du en kort <strong>repetition</strong> från häftet och ett <strong>modellsvar</strong> som visar hur man kan svara fullständigt – fast med ett annat exempel. Använd modellen som mall, men välj ett eget exempel i ditt svar!
+    </p>
+  </div>
+
+  <div class="namn-falt">
+    <label for="namn">Skriv ditt namn</label>
+    <input type="text" id="namn" placeholder="För- och efternamn">
+  </div>
+
+  <div id="provet"></div>
+
+  <div id="resultat" class="resultat">
+    <h3>Klart! 🌿</h3>
+    <p>Bra jobbat! Dina svar rättas av din lärare.</p>
+    <button class="skicka-text" onclick="visaSvar()">Visa alla mina svar för läraren</button>
+  </div>
+
+  <div class="skicka-omrade">
+    <button class="skicka" onclick="lamnaIn()">Lämna in provet</button>
+  </div>
+
+  <footer class="slut">
+    Du klarar det här! 🌱
+  </footer>
+
+</div>
+
+<script>
+  // FRÅGOR MED STÖDMATERIAL
+  // - repetition: faktatext från häftet om ämnet
+  // - modell: A-nivå-svar på EN ANNAN fråga (inte den eleven ska svara på)
+  // - checklista: punkter eleven kan bocka av i huvudet
+  const fragor = [
+    {
+      nr: 1, poang: 3,
+      repetition: 'Ur häftet (s. 152): "Här ser vi en <strong>population</strong> renar. Alla renar i flocken tillhör samma <strong>art</strong>... Men trots att de alla tillhör samma art finns det stora skillnader i hur de ser ut. Detta kallas för <strong>variation</strong>. Tjockleken på pälsen, längden på benen och förmågan att äta sig feta är tre egenskaper som skiljer sig mycket åt mellan de olika individerna i flocken."',
+      modellFraga: 'Förklara ordet VARIATION. Ge ett exempel.',
+      modellSvar: '<mark>Variation</mark> betyder att <mark>individerna inom samma art skiljer sig från varandra</mark>. <mark>Exempel</mark>: i en flock vargar har vissa tjockare päls, vissa är större och vissa springer snabbare – men alla är vargar.',
+      modellAnalys: 'Begrepp förklaras + ett konkret exempel. Skriv ditt eget svar med ett ANNAT djur än vargar!',
+      fraga: 'Förklara ordet <strong>VARIATION</strong>. Ge sedan ett exempel på hur individer av SAMMA art kan vara olika varandra.',
+      checklista: ['Har jag förklarat vad VARIATION betyder?', 'Har jag gett ett konkret exempel?', 'Handlar mitt exempel om individer inom SAMMA art (inte mellan olika arter)?']
+    },
+    {
+      nr: 2, poang: 3,
+      repetition: 'Ur häftet (s. 17): "I släktet Panthera finns det flera olika arter som till exempel lejon (Panthera leo) och tiger (Panthera tigris). Här ser vi tydligt på de latinska namnen att lejon och tiger tillhör samma släkte men är olika arter."',
+      modellFraga: 'Förklara skillnaden mellan SLÄKTE och ART. Ge ett exempel.',
+      modellSvar: 'Ett <mark>släkte</mark> är en grupp <mark>liknande arter</mark>. En <mark>art</mark> är individer som kan få barnbarn med varandra. <mark>Exempel</mark>: brunbjörn (Ursus arctos) och isbjörn (Ursus maritimus) tillhör samma släkte (Ursus) men är olika arter – första namnet är samma, andra är olika.',
+      modellAnalys: 'Båda begreppen förklaras + exempel med latinska namn. Skriv ditt eget svar med ANDRA djur än björnar!',
+      fraga: 'Förklara skillnaden mellan <strong>SLÄKTE</strong> och <strong>ART</strong>. Ge ett exempel med två djur som tillhör samma släkte men är olika arter (skriv gärna deras latinska namn).',
+      checklista: ['Har jag förklarat vad släkte är?', 'Har jag förklarat vad art är?', 'Har jag ett konkret exempel?', 'Har jag fått med latinska namn?']
+    },
+    {
+      nr: 3, poang: 4,
+      repetition: 'Ur häftet (s. 152–153): "Det renar som har tjock päls och kan äta sig feta under sommaren överlever vintrarna på berget när det blir kallt och ont om mat... De renar som är bäst <strong>anpassade</strong> för livsmiljön överlever och får ungar." Och Galapagos: "Havsleguanerna på Galapagosöarna är anpassade till ett liv i havet. Eftersom de äter alger under vattnet får de i sig för mycket salt. De fnyser därför ut överflödigt salt genom näsborrarna."',
+      modellFraga: 'Vad är en ANPASSNING? Ge två exempel.',
+      modellSvar: 'En <mark>anpassning</mark> är en <mark>egenskap som hjälper ett djur eller en växt att överleva i sin livsmiljö</mark>. <mark>Exempel 1</mark>: isbjörnens vita päls gör att den smälter in i snön och kan smyga sig på sälar. <mark>Exempel 2</mark>: kaktusens taggar gör att den tappar mindre vatten och inte blir uppäten.',
+      modellAnalys: 'Begrepp förklaras + TVÅ olika exempel som visar HUR anpassningen hjälper. Skriv ditt eget svar med ANDRA exempel!',
+      fraga: 'Vad är en <strong>ANPASSNING</strong>? Ge <strong>två olika exempel</strong> på djur eller växter som är anpassade till sin livsmiljö, och förklara hur anpassningen hjälper dem.',
+      checklista: ['Har jag förklarat vad anpassning betyder?', 'Har jag gett TVÅ exempel (inte bara ett)?', 'Har jag förklarat HUR anpassningen hjälper dem?'],
+      stor: true
+    },
+    {
+      nr: 4, poang: 5,
+      repetition: 'Ur häftet (s. 153): "Efter många generationer har det naturliga urvalet sakta men säkert gjort att populationen av renar på berget har anpassat sig efter livsmiljön där. Alla renar har nu tjock päls och kan äta sig feta under sommaren. Det är ju dessa egenskaper som har gått i <strong>arv</strong> eftersom de ungar som då föds får en blandning av sina föräldrars <strong>DNA</strong>."',
+      modellFraga: 'Förklara med VARIATION, ANPASSNING, NATURLIGT URVAL och ARV hur en fjärilspopulation kan förändras när skogen blir mörkare.',
+      modellSvar: 'I fjärilspopulationen finns <mark>variation</mark> – vissa har ljusare vingar, andra mörkare. När skogen blir mörkare är mörka vingar en bra <mark>anpassning</mark> eftersom fåglarna inte ser dem lika lätt. Genom det <mark>naturliga urvalet</mark> överlever de mörka och får fler ungar. Den mörka färgen går i <mark>arv</mark> via DNA. Efter många generationer är nästan alla fjärilar mörka.',
+      modellAnalys: 'ALLA FYRA orden står utskrivna i en kedja som hänger ihop. Skriv ditt eget svar om renarna med samma struktur!',
+      fraga: 'En population renar lever i ett område. En del av flocken flyttar upp i bergen, där det är kallt och ont om mat på vintern, men inga rovdjur. Förklara med hjälp av orden <strong>VARIATION, ANPASSNING, NATURLIGT URVAL och ARV</strong> hur renpopulationen i bergen kan förändras över många generationer. <strong>Ta med ALLA fyra orden och skriv ut dem i ditt svar.</strong>',
+      checklista: ['Har jag skrivit ut ordet VARIATION?', 'Har jag skrivit ut ordet ANPASSNING?', 'Har jag skrivit ut ordet NATURLIGT URVAL?', 'Har jag skrivit ut ordet ARV?', 'Hänger min förklaring ihop från början till slut?'],
+      stor: true
+    },
+    {
+      nr: 5, poang: 5,
+      repetition: 'Ur häftet (s. 153): "Efter tillräckligt lång tid har det naturliga urvalet gjort att skillnaden mellan renarna i dalen och de på berget blivit så pass stor att de inte längre kan para sig och få ungar med varandra. Det har då bildats två nya arter!"',
+      modellFraga: 'Förklara steg för steg hur en ny art kan uppstå. Använd ett exempel.',
+      modellSvar: 'För länge sedan fanns djur som var släkt med dagens kameler. I populationen fanns <mark>variation</mark> – vissa hade mer fett, andra tjockare fötter. När området blev torrare överlevde de bäst <mark>anpassade</mark> tack vare det <mark>naturliga urvalet</mark> och fick ungar som ärvde egenskaperna. Efter <mark>jättelång tid</mark> blev skillnaderna så stora att de inte längre kunde få ungar med sina gamla släktingar – då hade en ny art bildats: dagens kamel.',
+      modellAnalys: 'Hela kedjan + avslutning som visar att de INTE LÄNGRE KAN få ungar tillsammans = ny art. Skriv ditt eget svar med ett ANNAT exempel!',
+      fraga: 'Förklara <strong>steg för steg</strong> hur en HELT NY ART kan uppstå. Använd ett eget exempel (t.ex. djur som blir isolerade på en ö eller skild åt av ett berg). <strong>Viktigt:</strong> avsluta hela förklaringen ända fram till det som gör att det blir just en NY art – alltså att de två grupperna inte längre kan få ungar tillsammans.',
+      checklista: ['Har jag ett konkret exempel?', 'Har jag förklarat att grupperna blir isolerade?', 'Har jag nämnt att det tar lång tid?', 'Har jag avslutat med att de inte längre kan få ungar tillsammans?'],
+      stor: true
+    }
+  ];
+
+  // Render
+  const provetEl = document.getElementById('provet');
+
+  fragor.forEach(f => {
+    const div = document.createElement('div');
+    div.className = 'fraga';
+    div.dataset.nr = f.nr;
+    div.innerHTML = `
+      <div class="fraga-header">
+        <span class="fraga-nr">Fråga ${f.nr}</span>
+        <span class="poang">${f.poang} p</span>
+      </div>
+
+      <div class="repetition">
+        <p>${f.repetition}</p>
+      </div>
+
+      <div class="modell">
+        <p class="exempel-fraga">Fråga: "${f.modellFraga}"</p>
+        <p class="exempel-svar">${f.modellSvar}</p>
+        <p class="analys">${f.modellAnalys}</p>
+      </div>
+
+      <p class="fragetext">${f.fraga}</p>
+
+      <textarea class="svar-fält ${f.stor ? 'stor' : ''}" placeholder="Skriv ditt svar här..."></textarea>
+
+      <div class="checklista">
+        <div class="checklista-titel">Innan du går vidare – kontrollera:</div>
+        <ul>
+          ${f.checklista.map(p => `<li>${p}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+    provetEl.appendChild(div);
+  });
+
+  function lamnaIn() {
+    document.getElementById('resultat').classList.add('visa');
+    document.getElementById('resultat').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function visaSvar() {
+    const namn = document.getElementById('namn').value || '(namn saknas)';
+    let text = `STÖDPROV – Biologi (Liv & Evolution)\nElev: ${namn}\nDatum: ${new Date().toLocaleString('sv-SE')}\n\n`;
+
+    fragor.forEach(f => {
+      const div = document.querySelector(`.fraga[data-nr="${f.nr}"]`);
+      const svar = div.querySelector('textarea').value || "(ej besvarad)";
+      // Ta bort HTML-taggar från frågetexten
+      const renFragetext = f.fraga.replace(/<[^>]*>/g, '');
+      text += `\nFråga ${f.nr} (${f.poang} p): ${renFragetext}\n  Svar: ${svar}\n`;
+    });
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Alla dina svar är kopierade!\n\nKlistra in dem i ett mejl eller dokument till läraren.");
+      }).catch(() => visaFallback(text));
+    } else {
+      visaFallback(text);
+    }
+  }
+
+  function visaFallback(text) {
+    const overlay = document.createElement('div');
+    overlay.style.cssText = "position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;";
+    overlay.innerHTML = `
+      <div style="background:white;border-radius:14px;padding:1.25rem;max-width:600px;width:100%;max-height:80vh;display:flex;flex-direction:column;">
+        <h3 style="margin:0 0 0.6rem;font-family:'Fraunces',serif;color:#355128;">Dina svar</h3>
+        <p style="margin:0 0 0.7rem;font-size:0.9rem;color:#6b7361;">Markera all text nedan och kopiera, eller visa skärmen för läraren.</p>
+        <textarea readonly style="flex:1;min-height:300px;font-family:monospace;font-size:0.85rem;padding:0.7rem;border:1.5px solid #c6dfb6;border-radius:8px;background:#fbfaf4;">${text.replace(/</g,'&lt;')}</textarea>
+        <button onclick="this.parentElement.parentElement.remove()" style="margin-top:0.8rem;background:#4a7340;color:white;border:none;padding:0.7rem;border-radius:999px;font-family:inherit;font-size:1rem;font-weight:600;cursor:pointer;">Stäng</button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+  }
+</script>
+
+</body>
+</html>
